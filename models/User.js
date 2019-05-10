@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { hash, compare } = require('../lib/bcrypt');
+
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     email: { type: String, unique: true, required: true},
@@ -18,4 +20,17 @@ const UserSchema = new Schema({
     ]
 })
 const UserModel = mongoose.model('user',UserSchema);
-module.exports = { UserModel }
+class User{
+    static signUp(email, name, password){
+        return new Promise((resolve, reject)=>{
+            hash(password)
+            .then(passwordHash => UserModel.create({email, name, password: passwordHash}))
+            .then(user=>{
+                // delete user.password
+                return resolve(user)
+            })
+            .catch(err=>reject(err))
+        })
+    }
+}
+module.exports = { UserModel, User }
