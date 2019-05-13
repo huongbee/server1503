@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const { User } = require('../models/User')
+const { authenticate } = require('../lib/authenticate');
 
 // signup
 router.post('/signup',(req,res)=>{
@@ -35,8 +36,13 @@ router.post('/signin',(req,res)=>{
     }))
 })
 
-// signout
-// add friend
+// send friend request
+router.post('/add-friend',authenticate,(req,res)=>{
+    const { token } = req.headers;
+    const { idReceiver } = req.body;
+    res.send({ token, idReceiver })
+})
+
 // accept friend
 // remove friend
 
