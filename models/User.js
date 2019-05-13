@@ -50,9 +50,9 @@ class User{
     }
     static async login(email, password){
         const user = await UserModel.findOne({ email });
-        if(!user) return new Error('Cannot find user!');
-        const compare = await compare(password, user.password)
-        if(!compare) return new Error('Password invalid!')
+        if(!user) throw new Error('Cannot find user!');
+        const check = await compare(password, user.password)
+        if(!check) throw new Error('Password invalid!')
         return user;
     }
 }

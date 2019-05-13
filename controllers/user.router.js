@@ -6,13 +6,35 @@ const { User } = require('../models/User')
 router.post('/signup',(req,res)=>{
     const { email, name, password } = req.body
     User.signUp(email, name, password)
-    .then(user=>res.send(user))
-    .catch(err=>res.send(err))
+    .then(user=>res.send({
+        success: true,
+        data: user,
+        message: ''
+    }))
+    .catch(err=>res.send({
+        success: false,
+        data: null,
+        message: err.message
+    }))
 })
 // signin
 router.post('/signin',(req,res)=>{
     const { email, password } = req.body;
-    
+    User.signIn(email, password)
+    .then(user=>{
+        // create token
+
+        return res.send({
+            success: true,
+            data: user,
+            message: ''
+        })
+    })
+    .catch(err=>res.send({
+        success: false,
+        data: null,
+        message: err.message
+    }))
 })
 
 // signout
