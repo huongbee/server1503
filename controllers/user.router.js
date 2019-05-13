@@ -10,6 +10,10 @@ router.post('/signup',(req,res)=>{
     .catch(err=>res.send(err))
 })
 // signin
+router.post('/signin',(req,res)=>{
+    const { email, password } = req.body;
+    
+})
 
 // signout
 // add friend

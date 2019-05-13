@@ -32,5 +32,21 @@ class User{
             .catch(err=>reject(err))
         })
     }
+    static signIn(email, password){
+        return new Promise((resolve, reject)=>{
+            UserModel.findOne({ email })
+            .then(user=>{
+                if(!user) return reject(new Error('Cannot find email!'))
+                return compare(password, user.password)
+                .then(result=>{
+                    if(!result) return reject(new Error('Password invalid!'))
+                    return resolve(user)
+                })
+            })
+            .catch(err => {
+                return reject(err)
+            })
+        })
+    }
 }
 module.exports = { UserModel, User }
