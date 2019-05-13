@@ -20,7 +20,7 @@ router.post('/signup',(req,res)=>{
 // signin
 router.post('/signin',(req,res)=>{
     const { email, password } = req.body;
-    User.login(email, password)
+    User.signIn(email, password)
     .then(user=>{
         return res.send({
             success: true,

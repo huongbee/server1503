@@ -41,7 +41,17 @@ class User{
                 return compare(password, user.password)
                 .then(result=>{
                     if(!result) return reject(new Error('Password invalid!'))
-                    return resolve(user)
+                    return sign({_id: user._id})
+                    .then(token=>{
+                        return resolve({
+                            user: {
+                                _id: user._id,
+                                email: user.email,
+                                name: user.name
+                            },
+                            token
+                        })
+                    })
                 })
             })
             .catch(err => {
