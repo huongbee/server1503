@@ -38,9 +38,11 @@ router.post('/signin',(req,res)=>{
 
 // send friend request
 router.post('/add-friend',authenticate,(req,res)=>{
-    const { token } = req.headers;
+    // const { token } = req.headers;
     const { idReceiver } = req.body;
-    res.send({ token, idReceiver })
+    const idSender = req.userId
+    
+    res.send({ idSender, idReceiver })
 })
 
 // accept friend

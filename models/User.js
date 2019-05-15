@@ -76,5 +76,19 @@ class User{
             token
         };
     }
+    static async addFriend(idSender, idReceiver){
+        const sender = await UserModel.findOneAndUpdate(
+            { _id: idSender },
+            { $addToSet: { sendRequests: idReceiver } },
+            { new:true })
+        if(!sender) throw new Error('Cannot update sender!')
+        const receiver = await UserModel.findOneAndUpdate(
+            { _id: idReceiver},
+            { $addToSet: { receiveRequests: idSender}},
+            { new:true }
+        )
+        if(!receiver) throw new Error('Cannot update receiver!')
+        return { sender, receiver }
+    }
 }
 module.exports = { UserModel, User }
