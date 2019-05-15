@@ -41,8 +41,17 @@ router.post('/add-friend',authenticate,(req,res)=>{
     // const { token } = req.headers;
     const { idReceiver } = req.body;
     const idSender = req.userId
-    
-    res.send({ idSender, idReceiver })
+    User.addFriend(idSender, idReceiver)
+    .then(result => res.send({
+        success: true,
+        data: result,
+        message: ''
+    }))
+    .catch(err=>res.send({
+        success: false,
+        data: null,
+        message: err.message
+    }))
 })
 
 // accept friend

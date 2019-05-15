@@ -88,7 +88,20 @@ class User{
             { new:true }
         )
         if(!receiver) throw new Error('Cannot update receiver!')
-        return { sender, receiver }
+        return { 
+            sender: {
+                _id: sender._id,
+                name: sender.name,
+                email: sender.email,
+                sendRequests: sender.sendRequests
+            },
+            receiver: {
+                _id: receiver._id,
+                name: receiver.name,
+                email: receiver.email,
+                receiveRequests: receiver.receiveRequests
+            }
+         }
     }
 }
 module.exports = { UserModel, User }
