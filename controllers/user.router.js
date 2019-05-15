@@ -40,11 +40,10 @@ router.post('/signin',(req,res)=>{
 router.post('/add-friend',authenticate,(req,res)=>{
     const { idReceiver } = req.body;
     const idSender = req.userId
-    const token = req.token
     User.addFriend(idSender, idReceiver)
     .then(result => res.send({
         success: true,
-        data: { result, token},
+        data: result,
         message: ''
     }))
     .catch(err=>res.send({
@@ -55,6 +54,21 @@ router.post('/add-friend',authenticate,(req,res)=>{
 })
 
 // accept friend
+router.post('/accept-friend',authenticate,(req,res)=>{
+    const { idReceiver } = req.body;
+    const idSender = req.userId
+    User.acceptFriend(idSender, idReceiver)
+    .then(result => res.send({
+        success: true,
+        data: result,
+        message: ''
+    }))
+    .catch(err=>res.send({
+        success: false,
+        data: null,
+        message: err.message
+    }))
+})
 // remove friend
 
 module.exports = router

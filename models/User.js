@@ -103,5 +103,41 @@ class User{
             }
          }
     }
+    static async acceptFriend(userId, acceptId){
+        const user01 = await UserModel.findOneAndUpdate(
+            {_id: userId},
+            { 
+                $addToSet: { friends: acceptId},
+                $pull: {receiveRequests: acceptId}
+            },
+            {new: true}
+        )
+        if(!user01) throw new Error('Cannot update user!')
+        const otherUser = await UserModel.findOneAndUpdate(
+            { _id: acceptId},
+            {
+                $addToSet: { friends: userId},
+                $pull: {sendRequests: userId}     
+            },
+            {new: true}
+        )
+        if(!otherUser) throw new Error('Cannot update other user!')
+        return { 
+            user: {
+                _id: user01._id,
+                name: user01.name,
+                email: user01.email,
+                receiveRequests: user01.receiveRequests,
+                friends: user01.friends 
+            },
+            otherUser: {
+                _id: otherUser._id,
+                name: otherUser.name,
+                email: otherUser.email,
+                sendRequests: otherUser.sendRequests,
+                friends: otherUser.friends 
+            }
+         }    
+    }
 }
 module.exports = { UserModel, User }
