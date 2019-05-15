@@ -38,13 +38,13 @@ router.post('/signin',(req,res)=>{
 
 // send friend request
 router.post('/add-friend',authenticate,(req,res)=>{
-    // const { token } = req.headers;
     const { idReceiver } = req.body;
     const idSender = req.userId
+    const token = req.token
     User.addFriend(idSender, idReceiver)
     .then(result => res.send({
         success: true,
-        data: result,
+        data: { result, token},
         message: ''
     }))
     .catch(err=>res.send({
