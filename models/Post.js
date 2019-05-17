@@ -28,5 +28,23 @@ class Post{
         }
         return post;
     }
+    static async likePost(userId, postId){
+        const post = await PostModel.findOneAndUpdate(
+            { _id: postId },
+            { $addToSet: { likes: userId } },
+            { new: true}
+        )
+        if(!post) throw new Error('Cannot like post!');
+        return post;
+    }
+    static async dislikePost(userId, postId){
+        const post = await PostModel.findOneAndUpdate(
+            { _id: postId },
+            { $pull: { likes: userId } },
+            { new: true}
+        )
+        if(!post) throw new Error('Cannot dislike post!');
+        return post;
+    }
 }
 module.exports = { PostModel, Post }

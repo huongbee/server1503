@@ -30,11 +30,33 @@ router.post('/delete',(req,res)=>{
 })
 
 router.post('/like',(req,res)=>{
-    const { userId, postId } = req.body
-    
+    const userId = req.userId;
+    const { postId } = req.body
+    Post.likePost(userId, postId)
+    .then(post=>res.send({
+        success: true,
+        data: post,
+        message: ''
+    }))
+    .catch(err=>res.send({
+        success: false,
+        data: null,
+        message: err.message
+    }))
 })
 router.post('/dislike',(req,res)=>{
-    const { userId, postId } = req.body
-    
+    const userId = req.userId;
+    const { postId } = req.body
+    Post.dislikePost(userId, postId)
+    .then(post=>res.send({
+        success: true,
+        data: post,
+        message: ''
+    }))
+    .catch(err=>res.send({
+        success: false,
+        data: null,
+        message: err.message
+    }))
 })
 module.exports = router
