@@ -139,5 +139,6 @@ class User{
             }
          }    
     }
+    // remove friend
 }
 module.exports = { UserModel, User }
