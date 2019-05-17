@@ -19,6 +19,22 @@ router.post('/create',(req,res)=>{
     }))
 })
 // update
+router.post('/update',(req,res)=>{
+    const { content, _id } = req.body
+    // call to model
+})
 // delete
-// like
+router.post('/delete',(req,res)=>{
+    const { _id } = req.body
+    // call to model
+})
+
+router.post('/like',(req,res)=>{
+    const { userId, postId } = req.body
+    
+})
+router.post('/dislike',(req,res)=>{
+    const { userId, postId } = req.body
+    
+})
 module.exports = router
