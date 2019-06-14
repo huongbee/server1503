@@ -24,7 +24,7 @@ const UserModel = mongoose.model('user',UserSchema);
 class User{
     static getUser(_id){
         return new Promise((resolve, reject) => {
-            UserModel.findOne({ _id: decoded._id })
+            UserModel.findOne({ _id })
             .then(user=>{
                 return resolve({
                     _id: user._id,

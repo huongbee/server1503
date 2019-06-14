@@ -75,16 +75,21 @@ router.post('/accept-friend',authenticate,(req,res)=>{
 router.post('/check-user', authenticate, (req,res)=>{
     const _id = req.userId;
     User.getUser(_id)
-    .then(user=>res.send({
-        success: true,
-        data: user,
-        message: ''
-    }))
-    .catch(err=>res.send({
-        success: false,
-        data: null,
-        message: err.message
-    }))
+    .then(user=>{
+        console.log(_id)
+        return res.send({
+            success: true,
+            data: user,
+            message: ''
+        })
+    })
+    .catch(err=>{
+        return res.send({
+            success: false,
+            data: null,
+            message: err.message
+        })
+    })
 })
 
 module.exports = router
