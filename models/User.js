@@ -22,12 +22,25 @@ const UserSchema = new Schema({
 })
 const UserModel = mongoose.model('user',UserSchema);
 class User{
+    static getUser(_id){
+        return new Promise((resolve, reject) => {
+            UserModel.findOne({ _id: decoded._id })
+            .then(user=>{
+                return resolve({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email
+                });
+            })
+            .catch(err=> reject(err))
+        })
+    }
     static signUp(email, name, password){
         return new Promise((resolve, reject)=>{
             hash(password)
             .then(passwordHash => UserModel.create({email, name, password: passwordHash}))
             .then(user=>{
-                // delete user.password
+                delete user.password
                 return resolve(user)
             })
             .catch(err=>reject(err))

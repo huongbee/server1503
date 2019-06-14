@@ -5,7 +5,9 @@ const { authenticate } = require('../lib/authenticate');
 
 // signup
 router.post('/signup',(req,res)=>{
+    console.log(1)
     const { email, name, password } = req.body
+    console.log( {a:1, email, name, password })
     User.signUp(email, name, password)
     .then(user=>res.send({
         success: true,
@@ -70,5 +72,19 @@ router.post('/accept-friend',authenticate,(req,res)=>{
     }))
 })
 // remove friend
+router.post('/check-user', authenticate, (req,res)=>{
+    const _id = req.userId;
+    User.getUser(_id)
+    .then(user=>res.send({
+        success: true,
+        data: user,
+        message: ''
+    }))
+    .catch(err=>res.send({
+        success: false,
+        data: null,
+        message: err.message
+    }))
+})
 
 module.exports = router
