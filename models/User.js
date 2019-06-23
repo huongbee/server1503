@@ -90,31 +90,46 @@ class User{
         };
     }
     static async addFriend(idSender, idReceiver){
-        const sender = await UserModel.findOneAndUpdate(
-            { _id: idSender },
-            { $addToSet: { sendRequests: idReceiver } },
-            { new:true })
-        if(!sender) throw new Error('Cannot update sender!')
-        const receiver = await UserModel.findOneAndUpdate(
-            { _id: idReceiver},
-            { $addToSet: { receiveRequests: idSender}},
-            { new:true }
-        )
-        if(!receiver) throw new Error('Cannot update receiver!')
-        return { 
-            sender: {
-                _id: sender._id,
-                name: sender.name,
-                email: sender.email,
-                sendRequests: sender.sendRequests
-            },
-            receiver: {
-                _id: receiver._id,
-                name: receiver.name,
-                email: receiver.email,
-                receiveRequests: receiver.receiveRequests
+        const session = await UserModel.startSession();
+        session.startTransaction();
+        try{
+            const sender = await UserModel.findOneAndUpdate(
+                { _id: idSender },
+                { $addToSet: { sendRequests: idReceiver } },
+                { session, new: true },
+            )
+            const receiver = await UserModel.findOneAndUpdate(
+                { _id: idReceiver},
+                { $addToSet: { receiveRequests: idSender} },
+                { session, new: true }
+            )
+            if(receiver){
+                await session.commitTransaction();
+                console.log('Transaction committed.');
+                session.endSession();
             }
-         }
+            else throw new Error('Cannot update receiver!')
+            return { 
+                sender: {
+                    _id: sender._id,
+                    name: sender.name,
+                    email: sender.email,
+                    sendRequests: sender.sendRequests
+                },
+                receiver: {
+                    _id: receiver._id,
+                    name: receiver.name,
+                    email: receiver.email,
+                    receiveRequests: receiver.receiveRequests
+                }
+            };
+        }
+        catch(error){
+            console.log(error)
+            await session.abortTransaction();
+            session.endSession();
+            throw error;
+        }
     }
     static async acceptFriend(userId, acceptId){
         const user01 = await UserModel.findOneAndUpdate(
