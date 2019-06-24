@@ -92,7 +92,7 @@ router.post('/check-user', authenticate, (req,res)=>{
     })
 })
 
-// User.addFriend('5d0f222a1dc02803b7f8d4ab','5d00effbb769a30bb529d096')
-// .then(user=>console.log(user))
-// .catch(err=>console.log(err.message))
+User.addFriend('5d0f222a1dc02803b7f8d4ab','5d00effbb769a30bb529d096')
+.then(user=>console.log(user))
+.catch(err=>console.log(err.message))
 module.exports = router

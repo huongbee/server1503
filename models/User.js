@@ -125,7 +125,6 @@ class User{
             };
         }
         catch(error){
-            console.log(error)
             await session.abortTransaction();
             session.endSession();
             throw error;
