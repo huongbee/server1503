@@ -14,5 +14,11 @@
     "jwt-blacklist": "^0.0.2",
     "mongoose": "^5.5.7",
     "run-rs": "^0.5.2"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
+  },
+  "scripts": {
+    "test": "jest --watch"
   }
 }
