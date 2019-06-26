@@ -51,6 +51,9 @@ class User{
         })
     }
     static signIn(email, password){
+        if(!email) throw new Error('Missing email')
+        if(!password) throw new Error('Missing password');
+        
         return new Promise((resolve, reject)=>{
             UserModel.findOne({ email })
             .then(user=>{
