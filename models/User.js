@@ -37,6 +37,9 @@ class User{
         })
     }
     static signUp(email, name, password){
+        if(!email) throw new Error('Missing email')
+        if(!name) throw new Error('Missing name')
+        if(!password) throw new Error('Missing password');
         return new Promise((resolve, reject)=>{
             hash(password)
             .then(passwordHash => UserModel.create({email, name, password: passwordHash}))

@@ -1,4 +1,6 @@
 const { User, UserModel } = require('../models/User');
+const { equal } = require('assert');
+
 require('../lib/connectdb');
 
 describe('check user', () => {
@@ -25,3 +27,21 @@ describe('check user', () => {
         }
     })
 });
+
+describe('User sign up',()=>{
+    beforeEach(async ()=>{
+        await UserModel.remove({})
+    })
+    it('User can sign up',async ()=>{
+        const user = await User.signUp('huong@gmail.com','Huong','111111')
+        equal(user.name, 'Huong')
+        equal(user.email, 'huong@gmail.com')
+    })
+    it('User sign up missing email',async ()=>{
+        try {
+            await User.signUp(null,'Huong','111111')
+        } catch (error) {
+            equal(error.message, 'Missing email')
+        }
+    })
+})
