@@ -16,6 +16,7 @@
     "run-rs": "^0.5.2"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.0.1",
     "jest": "^24.8.0"
   },
   "scripts": {

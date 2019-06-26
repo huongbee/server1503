@@ -23,6 +23,7 @@ const UserSchema = new Schema({
 const UserModel = mongoose.model('user',UserSchema);
 class User{
     static getUser(_id){
+        if(!mongoose.Types.ObjectId.isValid(_id)) throw new Error('Id invalid');
         return new Promise((resolve, reject) => {
             UserModel.findOne({ _id })
             .then(user=>{
