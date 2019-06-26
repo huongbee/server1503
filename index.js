@@ -6,12 +6,6 @@ const cors = require('cors');
 app.use(cors());
 const { authenticate } = require('./lib/authenticate');
 
-const userRouter = require('./controllers/user.router')
-const postRouter = require('./controllers/post.router')
-
-app.use(parser.json({type: 'application/json'}))
-app.use('/user',userRouter);
-app.use('/post',authenticate, postRouter);
-
+const app = require('./app');
 
 app.listen(3000,()=>console.log('Server start on port 3000!'))
